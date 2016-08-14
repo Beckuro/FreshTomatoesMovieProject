@@ -12,10 +12,10 @@ You can watch the trailer of movie and get short description of it when you clic
 #Installation
 -
 First go to FreshTomatoesMovieProject directory, then open terminal
-'''
+```
 $ python entertaiment.py
 
-'''
+```
 a html page will created automatically when the script launched.
 
 #Issues
