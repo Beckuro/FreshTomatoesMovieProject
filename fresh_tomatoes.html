@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 3 -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <!--
+    <link href="sticky-footer-navbar.css" rel="stylesheet">
+    -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <style type="text/css" media="screen">
+        html {
+          position: relative;
+          min-height: 100%;
+        }
+        body {
+           margin-bottom: 60px;
+           padding: 0;
+           font-family: sans-serif;
+        }
+        #trailer .modal-dialog {
+            margin-top: 200px;
+            width: 640px;
+            height: 480px;
+        }
+        .hanging-close {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            z-index: 9001;
+        }
+        #trailer-video {
+            width: 100%;
+            height: 100%;
+        }
+        .scale-media {
+            padding-bottom: 56.25%;
+            position: relative;
+        }
+        .scale-media iframe {
+            border: none;
+            height: 100%;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background-color: white;
+        }
+
+        .jumbotron {
+          padding-left = 10px;
+          margin: 10px 5px 2px 3px;
+        }
+
+        h3 {
+          text-align: center;
+        }
+
+        .text-media {
+          margin-top: 10px;
+          margin-left: 10px;
+          padding-left: 5px;
+        }
+
+        .title-container {
+          margin-top: 60px;
+          margin-left: 3px;
+        }
+
+        .wrap {
+          display: flex;
+          flex-wrap: wrap;
+
+        }
+
+        .photo {
+          display: inline-block;
+          margin-bottom: 8px;
+          width: calc(50% - 4px);
+          margin-right: 0px;
+          margin-left: 3px;
+          margin-top: 20px;
+          text-decoration: none;
+          color: black;
+        }
+ 
+       .photo:nth-of-type(2n) {
+          margin-right: 0;
+        }
+
+        @media screen and (min-width: 50em) {
+          .photo {
+            width: calc(25% - 6px);
+          }
+          
+          .photo:nth-of-type(2n) {
+            margin-right: 8px;
+          }
+          
+          .photo:nth-of-type(4n) {
+            margin-right: 0;
+          }
+        }
+
+        figure {
+          margin: 0;
+          overflow: hidden;
+        }
+
+        figcaption {
+          margin-top: 15px;
+        }
+
+        img {
+          border: none;
+          max-width: 100%;
+          height: auto;
+          display: block;
+          transition: transform .2s ease-in-out;
+        }
+        .footer {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          /* Set the fixed height of the footer here */
+          height: 60px;
+          line-height: 60px; /* Vertically center the text there */
+          background-color: #f5f5f5;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+        // Pause the video when the modal is closed
+        $(document).on('click', '.hanging-close, .modal-backdrop, .modal', function (event) {
+            // Remove the src so the player itself gets removed, as this is the only
+            // reliable way to ensure the video stops playing in IE
+            $("#trailer-video-container").empty();
+        });
+        // Start playing the video whenever the trailer modal is opened
+        $(document).on('click', '.movie-tile', function (event) {
+            var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
+            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
+            var movieTitle = $(this).attr('data-title')
+            var plot = $(this).attr('data-plot')
+            var actors = $(this).attr('data-actor')
+            var year = $(this).attr('data-year')
+            var final = "<h3>"+movieTitle+"("+year+")</h3><p>"+plot+"</p> <p>Actor : "+actors+"<p>";
+            $("#trailer-video-container").empty().append($("<iframe></iframe>", {
+              'id': 'trailer-video',
+              'type': 'text-html',
+              'src': sourceUrl,
+              'frameborder': 0
+            }));
+            
+            $("#text-container").empty().append(final);  
+        });
+        
+    </script>
+</head>
+
+  <body class="no-touch">
+    <!-- Trailer Video Modal -->
+    <div class="modal" id="trailer">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
+            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
+          </a>
+          <div class="scale-media" id="trailer-video-container">
+          </div>
+          <div class="jumbotron jumbotron-fluid">
+           <div class="text-media" id="text-container">
+           </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main Page Content -->
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-fixed-top navbar-dark bg-primary">
+      <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbarcoll">
+       &#9776;
+      </button>
+      <div class="collapse navbar-toggleable-xs" id="navbarcoll">
+          <a class="navbar-brand" href="#">Fresh Tomatoes</a>
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+            <a class="nav-link" href="#Action">Action <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#Comedy">Comedy</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#Drama">Drama</a>
+            </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Content For Action -->
+    <div class="title-container">
+    <h2> Action </h2> <hr>
+    </div>
+    <div class="wrap" id="Action">
+      
+<a class="photo movie-tile" data-trailer-youtube-id="YdgQj7xcDJo" data-toggle="modal" data-target="#trailer" data-plot="The adventures of writer Newt Scamander in New York's secret community of witches and wizards seventy years before Harry Potter reads his book in school." data-title="Fantastic Beasts and Where to Find Them" data-actor="Ezra Miller, Eddie Redmayne, Colin Farrell, Jon Voight" data-year="2016"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMjQyMzIyMTY5NF5BMl5BanBnXkFtZTgwMDA0Mjk0NzE@._V1_SX300.jpg">
+    <figcaption>Fantastic Beasts and Where to Find Them</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="EXeTwQWrcwY" data-toggle="modal" data-target="#trailer" data-plot="When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice." data-title="The Dark Knight" data-actor="Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine" data-year="2008"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg">
+    <figcaption>The Dark Knight</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="2HkjrJ6IK5E" data-toggle="modal" data-target="#trailer" data-plot="After being kidnapped and imprisoned for 15 years, Oh Dae-Su is released, only to find that he must find his captor in 5 days." data-title="Oldboy" data-actor="Min-sik Choi, Ji-tae Yu, Hye-jeong Kang, Dae-han Ji" data-year="2003"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTI3NTQyMzU5M15BMl5BanBnXkFtZTcwMTM2MjgyMQ@@._V1_SX300.jpg">
+    <figcaption>Oldboy</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="7KJ0N7ik3yI" data-toggle="modal" data-target="#trailer" data-plot="A S.W.A.T. team becomes trapped in a tenement run by a ruthless mobster and his army of killers and thugs." data-title="The Raid: Redemption" data-actor="Iko Uwais, Joe Taslim, Donny Alamsyah, Yayan Ruhian" data-year="2011"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTgxODQyNTY0MV5BMl5BanBnXkFtZTcwMjMwMjU0Nw@@._V1_SX300.jpg">
+    <figcaption>The Raid: Redemption</figcaption>
+
+    </figure>     
+</a>
+
+    </div>
+    <!-- Content For Comedy -->
+    <div class="title-container" id="Comedy">
+    <h2> Comedy </h2> <hr>
+    </div>
+    <div class="wrap">
+      
+<a class="photo movie-tile" data-trailer-youtube-id="eLdiWe_HJv4" data-toggle="modal" data-target="#trailer" data-plot="Mere seconds before the Earth is to be demolished by an alien construction crew, journeyman Arthur Dent is swept off the planet by his friend Ford Prefect, a researcher penning a new edition of "The Hitchhiker's Guide to the Galaxy."" data-title="The Hitchhiker's Guide to the Galaxy" data-actor="Bill Bailey, Anna Chancellor, Warwick Davis, Yasiin Bey" data-year="2005"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMjEwOTk4NjU2MF5BMl5BanBnXkFtZTYwMDA3NzI3._V1_SX300.jpg">
+    <figcaption>The Hitchhiker's Guide to the Galaxy</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="l13yPhimE3o" data-toggle="modal" data-target="#trailer" data-plot="The cross-country adventures of two good-hearted but incredibly stupid friends." data-title="Dumb & Dumber" data-actor="Jim Carrey, Jeff Daniels, Lauren Holly, Mike Starr" data-year="1994"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BZDQwMjNiMTQtY2UwYy00NjhiLTk0ZWEtZWM5ZWMzNGFjNTVkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg">
+    <figcaption>Dumb & Dumber</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="vhFVZsk3XEs" data-toggle="modal" data-target="#trailer" data-plot="Three buddies wake up from a bachelor party in Las Vegas, with no memory of the previous night and the bachelor missing. They make their way around the city in order to find their friend before his wedding." data-title="The Hangover" data-actor="Bradley Cooper, Ed Helms, Zach Galifianakis, Justin Bartha" data-year="2009"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTU1MDA1MTYwMF5BMl5BanBnXkFtZTcwMDcxMzA1Mg@@._V1_SX300.jpg">
+    <figcaption>The Hangover</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="2MxnhBPoIx4" data-toggle="modal" data-target="#trailer" data-plot="Having thought that monogamy was never possible, a commitment-phobic career woman may have to face her fears when she meets a good guy." data-title="Trainwreck" data-actor="Colin Quinn, Devin Fabry, Carla Oudin, Amy Schumer" data-year="2015"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTQ4MjgwNTMyOV5BMl5BanBnXkFtZTgwMTc1MjI0NDE@._V1_SX300.jpg">
+    <figcaption>Trainwreck</figcaption>
+
+    </figure>     
+</a>
+
+    </div>
+    <!-- Content For Drama -->
+    <div class="title-container" id="Drama">
+    <h2> Drama </h2> <hr>
+    </div>
+    <div class="wrap">
+      
+<a class="photo movie-tile" data-trailer-youtube-id="Ys-mbHXyWX4" data-toggle="modal" data-target="#trailer" data-plot="The life of Mason, from early childhood to his arrival at college." data-title="Boyhood" data-actor="Ellar Coltrane, Patricia Arquette, Elijah Smith, Lorelei Linklater" data-year="2014"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTYzNDc2MDc0N15BMl5BanBnXkFtZTgwOTcwMDQ5MTE@._V1_SX300.jpg">
+    <figcaption>Boyhood</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="o4gHCmTQDVI" data-toggle="modal" data-target="#trailer" data-plot="Two stage magicians engage in competitive one-upmanship in an attempt to create the ultimate stage illusion." data-title="The Prestige" data-actor="Hugh Jackman, Christian Bale, Michael Caine, Piper Perabo" data-year="2006"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMjA4NDI0MTIxNF5BMl5BanBnXkFtZTYwNTM0MzY2._V1_SX300.jpg">
+    <figcaption>The Prestige</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="6hB3S9bIaco" data-toggle="modal" data-target="#trailer" data-plot="Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency." data-title="The Shawshank Redemption" data-actor="Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler" data-year="1994"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1_SX300.jpg">
+    <figcaption>The Shawshank Redemption</figcaption>
+
+    </figure>     
+</a>
+
+<a class="photo movie-tile" data-trailer-youtube-id="sY1S34973zA" data-toggle="modal" data-target="#trailer" data-plot="The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son." data-title="The Godfather" data-actor="Marlon Brando, Al Pacino, James Caan, Richard S. Castellano" data-year="1972"">
+    <figure>
+
+    <img src="http://ia.media-imdb.com/images/M/MV5BMjEyMjcyNDI4MF5BMl5BanBnXkFtZTcwMDA5Mzg3OA@@._V1_SX300.jpg">
+    <figcaption>The Godfather</figcaption>
+
+    </figure>     
+</a>
+
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Fresh Tomatoes Movie Project</span>
+      </div>
+    </footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><\/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
